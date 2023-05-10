@@ -27,7 +27,7 @@ void readAll(){
 }
 
 int chipSelector(int chip){  //Sets the chip select to choose a given chip
-    byte  pins[20]= {3,4,5,6,7,8,9,10,24,25,26,33,34,35,36,37,38,39,40,41};
+    int pins[20]= {3,4,5,6,7,8,9,10,24,25,26,33,34,35,36,37,38,39,40,41};
     return pins[chip];
 }
 
@@ -43,6 +43,14 @@ float readVoltage(int CSpin, uint16_t mux){
 
 int getTemp(float voltage){  //Uses lookup table to get temp
     float lut[33] = {2.44,2.42,2.40,2.38,2.35,2.32,2.27,2.23,2.17,2.11,2.05,1.99,1.92,1.86,1.80,1.74,1.68,1.63,1.59,1.55,1.51,1.48,1.45,1.43,1.40,1.38,1.37,1.35,1.34,1.33,1.32,1.31,1.30};
+	
+    if(voltage > lut[0]){
+        return -40 - ((voltage-lut[0]) / (lut[0]-lut[1]) * 5);
+    }
+
+    if(voltage < lut[32]){
+        return 120 + ((lut[32]-voltage) / (lut[31]-lut[32]) * 5);
+    }
 
     for(int i=0; i<32; i++){
         if(voltage >= lut[i]){
@@ -51,7 +59,6 @@ int getTemp(float voltage){  //Uses lookup table to get temp
             return i*5-40+add;
         }
     }
-    return -69;  //if the temp is not in the range
 }
 
 
