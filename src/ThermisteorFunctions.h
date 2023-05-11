@@ -61,7 +61,7 @@ float readVoltage2(int CSpin, uint8_t mux){
 	int T = 40;
 	uint16_t data = 0;
 	digitalWrite(CSpin, HIGH);
-	delay(1);
+	delayMicroseconds(T);
 
 	//start bit
 	digitalWrite(clk, LOW);digitalWrite(mosi, HIGH);
@@ -118,7 +118,7 @@ float readVoltage2(int CSpin, uint8_t mux){
 	digitalWrite(CSpin, LOW);
 	digitalWrite(clk, HIGH);
 	digitalWrite(mosi, LOW);
-	delay(1);
+	delayMicroseconds(T*2);
 
 	//Serial.print((mux&0b00000100)>0);Serial.print((mux&0b00000010)>0);Serial.print((mux&0b00000001)>0);Serial.print(" ");
 	//printInt16(data, false);
